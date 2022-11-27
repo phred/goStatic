@@ -35,6 +35,18 @@
             vendorSha256 =
               "sha256-eXByrXeHqElkG8kriA2Oo35BOiEdPz+pIjWOcG8tK3g=";
           };
+          docker = let
+            web = self.packages.${system}.default;
+          in pkgs.dockerTools.buildLayeredImage {
+            name = web.pname;
+            tag = web.version;
+            contents = [ web ];
+
+            config = {
+              Cmd = [ "/bin/goStatic" ];
+              WorkingDir = "/";
+            };
+          };
         };
 
         apps.default = utils.lib.mkApp { drv = self.packages.${system}.default; };
