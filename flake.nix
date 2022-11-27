@@ -54,5 +54,6 @@
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [ go gopls gotools go-tools ];
         };
+        defaultPackage = self.packages.${system}.default;
       });
 }
