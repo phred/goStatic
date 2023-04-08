@@ -142,7 +142,6 @@ func main() {
 	var fileSystem http.FileSystem = http.Dir(*basePath)
 	log.Debug().Str("path", *basePath).Msg("File serve path set")
 
-
 	if *fallbackPath != "" {
 		log.Debug().Str("FallbackPath", *fallbackPath).Msg("Fallback path set")
 		fileSystem = fallback{
