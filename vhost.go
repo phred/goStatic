@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"strings"
 	"path"
@@ -26,7 +25,7 @@ func vhostFromHostname(host string) (string, error) {
 func vhostify(base http.Handler, f http.FileSystem) http.Handler {
 	vhosts := detectVhosts(f)
 	for path, _ := range vhosts {
-		log.Info().Msgf("vhost found: %s", path)
+		log.Debug().Msgf("vhost found: %s", path)
 	}
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -43,8 +42,8 @@ func vhostify(base http.Handler, f http.FileSystem) http.Handler {
 			host.handler.ServeHTTP(w, r)
 			return
 		}
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprint(w, "404 not found")
+		log.Debug().Msgf("no vhost matching: %s", vhost)
+		http.NotFound(w, r)
 
 		// Here we need to pick a
 		// convention.

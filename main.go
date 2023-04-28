@@ -88,6 +88,17 @@ func (w *gzipResponseWriter) Write(b []byte) (int, error) {
 	return w.Writer.Write(b)
 }
 
+type notFoundResponseWriter struct {
+	http.ResponseWriter
+}
+
+func (w *notFoundResponseWriter) WriteHeader(status int) {
+	if status == http.StatusNotFound {
+		log.Info().Msgf("Custom error handler")
+	}
+	w.ResponseWriter.WriteHeader(status)
+}
+
 func handleReq(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if *httpsPromote && r.Header.Get("X-Forwarded-Proto") == "http" {
@@ -96,7 +107,8 @@ func handleReq(h http.Handler) http.Handler {
 			return
 		}
 		log.Debug().Str("Method", r.Method).Str("Path", r.URL.Path).Msg("Request Handled")
-		h.ServeHTTP(w, r)
+
+		h.ServeHTTP(&notFoundResponseWriter{ResponseWriter: w}, r)
 	})
 }
 
@@ -150,7 +162,7 @@ func main() {
 		}
 	}
 
-	handler := handleReq(http.FileServer(fileSystem))
+	handler := http.FileServer(fileSystem)
 
 	// VirtualHost handler here
 	//   - this won't allow for auth/headers/etc to be
@@ -214,6 +226,8 @@ func main() {
 			fmt.Fprintf(w, "Ok")
 		})
 	}
+
+	handler = handleReq(handler)
 
 	http.Handle(pathPrefix, handler)
 
