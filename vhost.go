@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -40,7 +41,8 @@ func vhostify(base http.Handler, f http.FileSystem) http.Handler {
 			host.handler.ServeHTTP(w, r)
 			return
 		}
-		base.ServeHTTP(w, r)
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprint(w, "404 not found")
 
 		// Here we need to pick a
 		// convention.
