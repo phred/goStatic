@@ -3,10 +3,12 @@ package main
 import (
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"strings"
 	"path"
+	"os"
+
+	"github.com/rs/zerolog/log"
 )
 
 func vhostFromHostname(host string) (string, error) {
@@ -24,20 +26,20 @@ func vhostFromHostname(host string) (string, error) {
 func vhostify(base http.Handler, f http.FileSystem) http.Handler {
 	vhosts := detectVhosts(f)
 	for path, _ := range vhosts {
-		log.Printf(path)
+		log.Info().Msgf("vhost found: %s", path)
 	}
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		vhost, err := vhostFromHostname(r.Host)
 		if err != nil {
-			log.Printf("no vhost: %s", r.Host)
+			log.Debug().Msgf("no vhost: %s", r.Host)
 			base.ServeHTTP(w, r)
 			return
 		}
 
 		host, exists := vhosts[vhost]
 		if exists {
-			log.Printf("vhost found: %s", vhost)
+			log.Debug().Msgf("vhost found: %s", vhost)
 			host.handler.ServeHTTP(w, r)
 			return
 		}
@@ -81,7 +83,8 @@ type VHost struct {
 func detectVhosts(fileSystem http.FileSystem) map[string]VHost {
 	vhostRoot, err := fileSystem.Open(*vhostPrefix)
 	if err != nil {
-		log.Fatalf("Error", err)
+		log.Fatal().Err(err).Msgf("Cannot read vhost directory")
+		os.Exit(1)
 	}
 	vhostDirs, err := vhostRoot.Readdir(512)
 	vhosts := make(map[string]VHost)
