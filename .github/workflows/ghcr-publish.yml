@@ -46,7 +46,8 @@ jobs:
         with:
           context: ./
           file: ./Dockerfile
-          platforms: linux/amd64,linux/arm64,linux/arm/v5,linux/arm/v6,linux/arm/v7,darwin/amd64,darwin/arm64,windows/amd64
+          platforms: linux/amd64,linux/arm64,darwin/arm64
+          # platforms: linux/amd64,linux/arm64,linux/arm/v5,linux/arm/v6,linux/arm/v7,darwin/amd64,darwin/arm64,windows/amd64
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.actor }}/gostatic:latest
 
