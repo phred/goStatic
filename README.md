@@ -17,7 +17,7 @@ I run this in a fly.io app and have very quick builds and deploys, tyvm. Few mov
 
 Go for it, take my changes and make your own remix. What you do with that code is up to you. I'm not going to add any features that aren't related to making my webspace cooler.
 
-I'm planning to or remix features I don't need such as:
+I'm planning to delete or remix features I don't need such as:
  * Specify custom response headers per path and filetype [(info)](./docs/header-config.md) 
 
 ## Features
@@ -26,8 +26,8 @@ I'm planning to or remix features I don't need such as:
  * Web server built for Docker
  * Light container
  * More secure than official images (see below)
- * Log enabled
- * Virtual Hosting
+ * 🆕 Log enabled
+ * 🆕 Virtual Hosting
  * (soon) custom 404 pages.
 
 ## Why?
