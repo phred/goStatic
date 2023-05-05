@@ -1,12 +1,24 @@
-# goStatic [![Docker Pulls](https://img.shields.io/docker/pulls/pierrezemb/gostatic.svg?style=plastic)](https://hub.docker.com/r/pierrezemb/gostatic/) [![Docker Build](https://img.shields.io/docker/build/pierrezemb/gostatic.svg?style=plastic)](https://hub.docker.com/r/pierrezemb/gostatic/) [![Build Status](https://travis-ci.org/PierreZ/goStatic.svg?branch=master)](https://travis-ci.org/PierreZ/goStatic)  [![GoDoc](https://godoc.org/github.com/PierreZ/goStatic?status.svg)](https://godoc.org/github.com/PierreZ/goStatic)
-A really small, multi-arch, static web server for Docker
+# smolboi 🖭
 
-## The goal
-My goal is to create to smallest docker container for my web static files. The advantage of Go is that you can generate a fully static binary, so that you don't need anything else.
+A mixtape 🖭 playing the greatest hits from [goStatic](https://github.com/PierreZ/goStatic) with a little special sauce all my my own.
 
-### Wait, I've been using old versions of GoStatic and things have changed!
+## The goals
+- Wafer thin OCI image
+- Aerogel-weight Nix build
+- Handle the boring-ass job of Serving [my website](https://fff.red) to my 2 visitors a week (a guess, thanks for reading if you do! at present I don't track metrics on this and I hope I have >0 visitors)
 
-Yeah, decided to drop support of unsecured HTTPS. Two-years ago, when I started GoStatic, there was no automatic HTTPS available. Nowadays, thanks to Let's Encrypt, it's really easy to do so. If you need HTTPS, I recommend [caddy](https://caddyserver.com).
+The original project's goal was "to create to smallest docker container for my web static files." I'm tired of Docker and want something smaller, and simpler, if I can get it.
+
+So far I have added virtualhost support and have been running my site on it for a couple years now.
+
+I run this in a fly.io app and have very quick builds and deploys, tyvm. Few moving parts.
+
+### Wait, can I use this code?
+
+Go for it, take my changes and make your own remix. What you do with that code is up to you. I'm not going to add any features that aren't related to making my webspace cooler.
+
+I'm planning to or remix features I don't need such as:
+ * Specify custom response headers per path and filetype [(info)](./docs/header-config.md) 
 
 ## Features
  * A fully static web server embedded in a `SCRATCH` image
@@ -15,31 +27,26 @@ Yeah, decided to drop support of unsecured HTTPS. Two-years ago, when I started 
  * Light container
  * More secure than official images (see below)
  * Log enabled
- * Specify custom response headers per path and filetype [(info)](./docs/header-config.md) 
+ * Virtual Hosting
+ * (soon) custom 404 pages.
 
 ## Why?
-Because the official Golang image is wayyyy too big (around 1/2Gb as you can see below) and could be insecure.
+Because Caddy2 is too complex, and I don't want to configure yet another instance of Apache or Nginx. I like Deno, but I like Go's production-grade standard library HTTP server better. Rust is cool but makes fat binaries too. Go also makes fat binaries, but this project has a minimal [set of dependencies](./go.mod)
 
-[![](https://badge.imagelayers.io/golang:latest.svg)](https://imagelayers.io/?images=golang:latest 'Get your own badge on imagelayers.io')
+The world is full of terrible, bloated software, fat containers, node_modules by the truckload. Big binaries have hidden externalities in transport, storage, compute time. My needs are simple and they fit in a single binary, [as things should](https://fossil-scm.org/).
 
-For me, the whole point of containers is to have a light container...
-Many links should provide you with additional info to see my point of view:
-
- * [Over 30% of Official Images in Docker Hub Contain High Priority Security Vulnerabilities](http://www.banyanops.com/blog/analyzing-docker-hub/)
- * [Create The Smallest Possible Docker Container](http://blog.xebia.com/2014/07/04/create-the-smallest-possible-docker-container/)
- * [Building Docker Images for Static Go Binaries](https://medium.com/@kelseyhightower/optimizing-docker-images-for-static-binaries-b5696e26eb07)
- * [Small Docker Images For Go Apps](https://www.ctl.io/developers/blog/post/small-docker-images-for-go-apps)
+Thank you, PierreZ, for showing me the way. Software complexity will eat us all, best to only use what you need for the job.
 
 ## How to use
 ```
-docker run -d -p 80:8043 -v path/to/website:/srv/http --name goStatic pierrezemb/gostatic
+docker run -d -p 80:8043 -v path/to/website:/srv/http --name smolboi phred/smolboi
 ```
 
 ## Usage 
 
 ```
-./goStatic --help
-Usage of ./goStatic:
+./smolboi --help
+Usage of ./smolboi:
   -append-header HeaderName:Value
         HTTP response header, specified as HeaderName:Value that should be added to all responses.
   -context string
