@@ -17,8 +17,6 @@ I run this in a fly.io app and have very quick builds and deploys, tyvm. Few mov
 
 Go for it, take my changes and make your own remix. What you do with that code is up to you. I'm not going to add any features that aren't related to making my webspace cooler.
 
-I'm planning to delete or remix features I don't need such as:
- * Specify custom response headers per path and filetype [(info)](./docs/header-config.md) 
 
 ## Features
  * A fully static web server embedded in a `SCRATCH` image
@@ -29,6 +27,9 @@ I'm planning to delete or remix features I don't need such as:
  * 🆕 Log enabled
  * 🆕 Virtual Hosting
  * (soon) custom 404 pages.
+
+I'm planning to delete or remix features I don't need such as:
+ * Specify custom response headers per path and filetype [(info)](./docs/header-config.md) 
 
 ## Why?
 Because Caddy2 is too complex, and I don't want to configure yet another instance of Apache or Nginx. I like Deno, but I like Go's production-grade standard library HTTP server better. Rust is cool but makes fat binaries too. Go also makes fat binaries, but this project has a minimal [set of dependencies](./go.mod)
