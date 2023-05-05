@@ -1,4 +1,4 @@
-# smolboi 🖭
+# 📼 smolboi 🖭
 
 A mixtape 🖭 playing the greatest hits from [goStatic](https://github.com/PierreZ/goStatic) with a little special sauce all my my own.
 
