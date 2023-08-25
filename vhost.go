@@ -17,6 +17,7 @@ func vhostFromHostname(host string) (string, error) {
 	if len(pieces) == 1 || len(pieces) == 2 {
 		return "", errors.New("No vhost")
 	}
+	// This totally fails for IP-based hostnames
 
 	// Otherwise, return the leftmost component
 	return pieces[0], nil
@@ -31,7 +32,7 @@ func vhostify(base http.Handler, f http.FileSystem) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		vhost, err := vhostFromHostname(r.Host)
 		if err != nil {
-			log.Debug().Msgf("no vhost: %s", r.Host)
+			log.Debug().Msgf("no vhost in hostname, serving default")
 			base.ServeHTTP(w, r)
 			return
 		}
@@ -92,7 +93,12 @@ func detectVhosts(fileSystem http.FileSystem) map[string]VHost {
 	for _, dir := range vhostDirs {
 		if dir.IsDir() {
 			name := dir.Name()
+
 			// TODO reject any names that aren't DNS safe
+			if (strings.Contains(name, " ")) {
+				log.Debug().Str("vhost", name).Msg("Skipping vhost, non-DNS safe name")
+				continue
+			}
 			//log.Printf("%v", path.Join(*basePath, name))
 			vhosts[name] = VHost{name, http.FileServer(http.Dir(path.Join(vhostBase, name)))}
 			//handler := handleReq()
