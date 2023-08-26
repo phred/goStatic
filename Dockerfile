@@ -7,8 +7,7 @@ WORKDIR /go/src/github.com/PierreZ/goStatic
 COPY . .
 
 RUN mkdir ./bin && \
-    # apt-get update &&
-    apt-get install -y upx && \
+    apt-get update && apt-get install -y upx && \
     #
     # getting right vars from docker buildx
     # especially to handle linux/arm/v6 for example
