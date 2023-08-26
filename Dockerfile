@@ -7,7 +7,7 @@ WORKDIR /go/src/github.com/phred/smolboi
 COPY . .
 
 RUN mkdir ./bin && \
-    apt-get update &&
+    apt-get update && \
     apt-get install -y upx-ucl && \
     #
     # getting right vars from docker buildx
