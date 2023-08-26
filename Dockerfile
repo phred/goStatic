@@ -6,6 +6,10 @@ ARG TARGETPLATFORM
 WORKDIR /go/src/github.com/phred/smolboi
 COPY . .
 
+LABEL org.opencontainers.image.source=https://github.com/phred/smolboi
+LABEL org.opencontainers.image.description="a smol http boi"
+LABEL org.opencontainers.image.licenses=GPL
+
 RUN mkdir ./bin && \
     # apt-get update && \
     # apt-get install -y upx-ucl && \
