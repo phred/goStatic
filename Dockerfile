@@ -7,8 +7,8 @@ WORKDIR /go/src/github.com/phred/smolboi
 COPY . .
 
 RUN mkdir ./bin && \
-    apt-get update && \
-    apt-get install -y upx-ucl && \
+    # apt-get update && \
+    # apt-get install -y upx-ucl && \
     #
     # getting right vars from docker buildx
     # especially to handle linux/arm/v6 for example
@@ -20,7 +20,7 @@ RUN mkdir ./bin && \
     #
     mkdir ./bin/etc && \
     ID=$(shuf -i 100-9999 -n 1) && \
-    upx-ucl -9 ./bin/smolboi && \
+    #upx-ucl -9 ./bin/smolboi && \
     echo $ID && \
     echo "appuser:x:$ID:$ID::/sbin/nologin:/bin/false" > ./bin/etc/passwd && \
     echo "appgroup:x:$ID:appuser" > ./bin/etc/group
