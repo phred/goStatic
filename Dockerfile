@@ -3,11 +3,11 @@ FROM --platform=$BUILDPLATFORM golang:latest as builder
 
 ARG TARGETPLATFORM
 
-WORKDIR /go/src/github.com/PierreZ/goStatic
+WORKDIR /go/src/github.com/phred/smolboi
 COPY . .
 
 RUN mkdir ./bin && \
-    # apt-get update &&
+    apt-get update &&
     apt-get install -y upx-ucl && \
     #
     # getting right vars from docker buildx
@@ -16,7 +16,7 @@ RUN mkdir ./bin && \
     GOARCH=$(echo $TARGETPLATFORM | cut -f2 -d/) && \
     GOARM=$(echo $TARGETPLATFORM | cut -f3 -d/ | sed "s/v//" ) && \
     #
-    CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} GOARM=${GOARM} go build ${BUILD_ARGS} -ldflags="-s" -tags netgo -installsuffix netgo -o ./bin/goStatic && \
+    CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} GOARM=${GOARM} go build ${BUILD_ARGS} -ldflags="-s" -tags netgo -installsuffix netgo -o ./bin/smolboi && \
     #
     mkdir ./bin/etc && \
     ID=$(shuf -i 100-9999 -n 1) && \
