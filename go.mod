@@ -1,4 +1,4 @@
-module github.com/PierreZ/goStatic
+module github.com/phred/smolboi
 
 go 1.16
 

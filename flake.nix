@@ -19,7 +19,7 @@
       in {
         packages = {
           default = pkgs.buildGoModule {
-            pname = "goStatic";
+            pname = "smolboi";
             inherit version;
             src = ./.;
 
@@ -43,7 +43,7 @@
             contents = [ web ];
 
             config = {
-              Cmd = [ "/bin/goStatic" ];
+              Cmd = [ "/bin/smolboi" ];
               WorkingDir = "/";
             };
           };
