@@ -1,4 +1,4 @@
-// This small program is just a small web server created in static mode
+// This smol program is the Go HTTP server in static mode
 // in order to provide the smallest docker image possible
 
 package main
@@ -17,7 +17,7 @@ import (
 
 var (
 	// Def of flags
-	portPtr                  = flag.Int("port", 8043, "The listening port")
+	portPtr                  = flag.Int("port", 8080, "The listening port")
 	basePath                 = flag.String("path", "/srv/http", "The path for the static files")
 	vhostPrefix              = flag.String("vhost", "labs", "The prefix for locating lightweight virtual hosted subdomains, or vhosts. E.g. 'labs' will serve the files at /srv/http/labs/tango when someone visits http://tango.your.tld")
 
